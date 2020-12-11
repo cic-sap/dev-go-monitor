@@ -34,4 +34,5 @@ func WithGinHandle(fun func(c *gin.Context) string) Option {
 func init() {
 
 	InitUptime()
+	StartHttpClientTrace()
 }
