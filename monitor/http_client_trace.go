@@ -70,6 +70,12 @@ var rt http.RoundTripper
 
 var o sync.Once
 
+func WarpTransport(org http.RoundTripper) http.RoundTripper {
+	return &PrometheusTransport{
+		originalTransport: org,
+	}
+}
+
 func StartHttpClientTrace() {
 
 	o.Do(func() {
