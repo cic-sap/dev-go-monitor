@@ -21,6 +21,7 @@ func Init(r *echo.Echo, options ...monitor.Option) {
 	r.Use(Handler(m))
 	r.GET(conf.Path, echo.WrapHandler(promhttp.Handler()))
 
+	monitor.Patch()
 }
 
 // Handler returns a Echo measuring middleware.

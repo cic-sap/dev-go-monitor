@@ -20,6 +20,7 @@ func Init(r *gin.Engine, options ...monitor.Option) {
 	r.Use(Handler(conf, m))
 	r.GET(conf.Path, gin.WrapH(promhttp.Handler()))
 
+	monitor.Patch()
 }
 
 func Handler(conf *monitor.Conf, m middleware.Middleware) gin.HandlerFunc {

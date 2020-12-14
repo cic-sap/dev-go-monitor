@@ -1,6 +1,9 @@
 package monitor
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"sync"
+)
 
 type Conf struct {
 	Path            string
@@ -31,8 +34,13 @@ func WithGinHandle(fun func(c *gin.Context) string) Option {
 	}
 }
 
-func init() {
+var one sync.Once
 
-	InitUptime()
-	StartHttpClientTrace()
+func Patch() {
+
+	one.Do(func() {
+		InitUptime()
+		StartHttpClientTrace()
+	})
+
 }

@@ -2,13 +2,13 @@ package plugin_rest
 
 import (
 	"context"
+	"github.com/cic-sap/dev-go-monitor/monitor"
 	"github.com/emicklei/go-restful"
 	gorestful "github.com/emicklei/go-restful"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	metrics2 "github.com/slok/go-http-metrics/metrics"
 	metrics "github.com/slok/go-http-metrics/metrics/prometheus"
 	"github.com/slok/go-http-metrics/middleware"
-	"github.com/cic-sap/dev-go-monitor/monitor"
 	"sync"
 )
 
@@ -28,6 +28,7 @@ func Init(c *restful.Container, options ...monitor.Option) {
 	c.Filter(Handler(m))
 	c.Handle(conf.Path, promhttp.Handler())
 
+	monitor.Patch()
 }
 
 // Handler returns a gorestful measuring middleware.
