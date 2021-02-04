@@ -7,7 +7,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	metrics "github.com/slok/go-http-metrics/metrics/prometheus"
 	"github.com/slok/go-http-metrics/middleware"
-	"log"
 )
 
 func Init(r *echo.Echo, options ...monitor.Option) {
@@ -29,7 +28,7 @@ func Handler(m middleware.Middleware) echo.MiddlewareFunc {
 	return func(h echo.HandlerFunc) echo.HandlerFunc {
 
 		return echo.HandlerFunc(func(c echo.Context) error {
-			log.Println("get path:", c.Path())
+			//log.Println("get path:", c.Path())
 			r := &reporter{c: c}
 			var err error
 			m.Measure(c.Path(), r, func() {

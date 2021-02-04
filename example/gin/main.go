@@ -6,7 +6,6 @@ import (
 	"github.com/cic-sap/dev-go-monitor/plugin-gin"
 	"github.com/gin-gonic/gin"
 	req "github.com/imroc/req"
-	"log"
 	"math/rand"
 	"net/http"
 	"strings"
@@ -35,7 +34,7 @@ func main() {
 	})
 	r.GET("/hi/:id", func(c *gin.Context) {
 
-		log.Println("path:", c.FullPath())
+		//log.Println("path:", c.FullPath())
 
 		id := c.Param("id")
 		c.String(http.StatusOK,
@@ -43,8 +42,7 @@ func main() {
 	})
 	r.GET("/info/*any", func(c *gin.Context) {
 
-		log.Println("path:", c.FullPath(), c.Param("any"))
-
+		//log.Println("path:", c.FullPath(), c.Param("any"))
 		req.Get("https://httpbin.org/" + c.Param("any"))
 		c.String(http.StatusOK,
 			fmt.Sprintf("hello info:%s", c.FullPath()))
