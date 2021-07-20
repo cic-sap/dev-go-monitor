@@ -1,7 +1,7 @@
 package monitor
 
 import (
-	req "github.com/imroc/req"
+	"github.com/imroc/req"
 	"github.com/prometheus/client_golang/prometheus"
 	"net/http"
 	"strconv"
@@ -29,7 +29,7 @@ var (
 		Name:    "client_request_duration_seconds",
 		Help:    "Number of http_client_request",
 		Buckets: defaultBuckets,
-	}, []string{"host", "path", "code", "method"})
+	}, []string{"host", "code", "method"})
 )
 
 func SetDebug(b bool) {
@@ -53,7 +53,6 @@ func (c *PrometheusTransport) RoundTrip(r *http.Request) (*http.Response, error)
 	labels := prometheus.Labels{
 		"host":   r.URL.Host,
 		"method": r.Method,
-		"path":   r.URL.Path,
 		"code":   "0",
 	}
 	if debug {
