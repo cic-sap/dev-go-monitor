@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/cic-sap/dev-go-monitor/monitor"
 	"github.com/gin-gonic/gin"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	metrics "github.com/slok/go-http-metrics/metrics/prometheus"
 	"github.com/slok/go-http-metrics/middleware"
 )
@@ -18,7 +17,7 @@ func Init(r *gin.Engine, options ...monitor.Option) {
 	})
 
 	r.Use(Handler(conf, m))
-	r.GET(conf.Path, gin.WrapH(promhttp.Handler()))
+	r.GET(conf.Path, gin.WrapH(conf.BuildHandler()))
 
 	monitor.Patch()
 }

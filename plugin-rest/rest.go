@@ -5,7 +5,6 @@ import (
 	"github.com/cic-sap/dev-go-monitor/monitor"
 	"github.com/emicklei/go-restful"
 	gorestful "github.com/emicklei/go-restful"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	metrics2 "github.com/slok/go-http-metrics/metrics"
 	metrics "github.com/slok/go-http-metrics/metrics/prometheus"
 	"github.com/slok/go-http-metrics/middleware"
@@ -26,7 +25,7 @@ func Init(c *restful.Container, options ...monitor.Option) {
 		Recorder: record,
 	})
 	c.Filter(Handler(m))
-	c.Handle(conf.Path, promhttp.Handler())
+	c.Handle(conf.Path, conf.BuildHandler())
 
 	monitor.Patch()
 }

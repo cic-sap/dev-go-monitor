@@ -6,13 +6,22 @@ import (
 	"github.com/cic-sap/dev-go-monitor/plugin-gin"
 	"github.com/gin-gonic/gin"
 	req "github.com/imroc/req"
+	"github.com/prometheus/client_golang/prometheus"
 	"math/rand"
 	"net/http"
 	"strings"
 	"time"
 )
 
+var reg = prometheus.NewRegistry()
+
+var c1 = prometheus.NewCounter(prometheus.CounterOpts{
+	Name: "c1",
+})
+
 func main() {
+	reg.MustRegister(c1)
+
 	r := gin.Default()
 
 	plugin_gin.Init(r, monitor.WithPath("/metrics"),
@@ -21,9 +30,13 @@ func main() {
 				return "/hi/" + strings.ToLower(c.Param("id"))
 			}
 			return c.FullPath()
-		}))
+		}),
+		monitor.WithGatherer(reg),
+		monitor.WithGatherer(prometheus.DefaultGatherer),
+	)
 
 	r.GET("/", func(c *gin.Context) {
+		c1.Add(1.0)
 		time.Sleep(time.Second * time.Duration(rand.Int31n(3)))
 		c.String(http.StatusOK, "hello world")
 	})
